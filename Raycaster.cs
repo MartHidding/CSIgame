@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Raycaster : MonoBehaviour
 {
-   
+
     bool carrying;
     GameObject carriedObject;
 
@@ -13,8 +13,12 @@ public class Raycaster : MonoBehaviour
     public float y_RotateSpeed;
     public float z_RotateSpeed;
 
+    private GameObject objHit;
+
     public GameObject mainCamera;
     // Use this for initialization
+
+    public number lastTarget;
 
     public string inspectInfo;
     void Start()
@@ -29,11 +33,13 @@ public class Raycaster : MonoBehaviour
         {
             carry(carriedObject);
             checkDrop();
-            
+
         }
         else
         {
             pickup();
+            Puzzle();
+            Detect();
         }
     }
 
@@ -42,7 +48,7 @@ public class Raycaster : MonoBehaviour
     void carry(GameObject o)
     {
         o.transform.position = Vector3.Lerp(o.transform.position, mainCamera.transform.position + mainCamera.transform.forward * distance, Time.deltaTime * smooth);
-       // o.transform.rotation = Quaternion.identity;
+        // o.transform.rotation = Quaternion.identity;
     }
 
     void pickup()
@@ -64,6 +70,13 @@ public class Raycaster : MonoBehaviour
                     //p.gameObject.rigidbody.isKinematic = true;
                     p.gameObject.GetComponent<Rigidbody>().useGravity = false;
                 }
+
+            number n = hit.collider.GetComponent<number>();
+
+                if (n != null)
+                {
+                    Debug.Log("Detected PUzzl");
+                }
             }
         }
 
@@ -72,7 +85,7 @@ public class Raycaster : MonoBehaviour
             int x = Screen.width / 2;
             int y = Screen.height / 2;
 
-            
+
 
             Ray ray = mainCamera.GetComponent<Camera>().ScreenPointToRay(new Vector3(x, y));
             RaycastHit hit;
@@ -81,7 +94,7 @@ public class Raycaster : MonoBehaviour
                 Pickupable p = hit.collider.GetComponent<Pickupable>();
                 if (p != null)
                 {
-                   // Debug.Log(GetComponent<Pickupable>.inspectInfo);
+                    // Debug.Log(GetComponent<Pickupable>.inspectInfo);
                 }
             }
         }
@@ -90,37 +103,37 @@ public class Raycaster : MonoBehaviour
 
     void checkDrop()
     {
-        if  (Input.GetButtonDown("360_XButton"))
+        if (Input.GetButtonDown("360_XButton"))
         {
             dropObject();
         }
-           
-                if (Input.GetAxis("360_Axis_Dpad_H") == -1)
-                {
-                   carriedObject.transform.Rotate(0, y_RotateSpeed, 0);
-                   Debug.Log("rotatingL");
-                }
-                if (Input.GetAxis("360_Axis_Dpad_H") == 1)
-                {
-                    carriedObject.transform.Rotate(0, -y_RotateSpeed, 0);
-                    Debug.Log("rotatingR");
-                }
-                if (Input.GetAxis("360_Axis_Dpad_V") == -1)
-                {
-                    carriedObject.transform.Rotate(0, 0, z_RotateSpeed);
-                    Debug.Log("rotatingU");
-                }
 
-                if (Input.GetAxis("360_Axis_Dpad_V") == 1)
-                {
-                    carriedObject.transform.Rotate(0, 0, -z_RotateSpeed);
-                    Debug.Log("rotatingD");
-                }
-                  
-      }
+        if (Input.GetAxis("360_Axis_Dpad_H") == -1)
+        {
+            carriedObject.transform.Rotate(0, y_RotateSpeed, 0);
+            Debug.Log("rotatingL");
+        }
+        if (Input.GetAxis("360_Axis_Dpad_H") == 1)
+        {
+            carriedObject.transform.Rotate(0, -y_RotateSpeed, 0);
+            Debug.Log("rotatingR");
+        }
+        if (Input.GetAxis("360_Axis_Dpad_V") == -1)
+        {
+            carriedObject.transform.Rotate(0, 0, z_RotateSpeed);
+            Debug.Log("rotatingU");
+        }
 
-        
-   
+        if (Input.GetAxis("360_Axis_Dpad_V") == 1)
+        {
+            carriedObject.transform.Rotate(0, 0, -z_RotateSpeed);
+            Debug.Log("rotatingD");
+        }
+
+    }
+
+
+
 
     void dropObject()
     {
@@ -129,4 +142,75 @@ public class Raycaster : MonoBehaviour
         carriedObject.gameObject.GetComponent<Rigidbody>().useGravity = true;
         carriedObject = null;
     }
+
+
+    void Detect()
+    {
+
+        int x = Screen.width / 2;
+        int y = Screen.height / 2;
+
+        Ray ray = mainCamera.GetComponent<Camera>().ScreenPointToRay(new Vector3(x, y));
+        RaycastHit hit;
+
+        
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            number n = hit.collider.GetComponent<number>();
+            lastTarget = n;
+            if (n != null)
+            {
+                Debug.Log("Its a hit!");
+                n.selected();
+            }
+        }
+        else
+        {
+            
+            lastTarget.unselected();
+            }
+        }
+      
+
+    
+    void Puzzle()
+    {
+
+
+        int x = Screen.width / 2;
+        int y = Screen.height / 2;
+
+        Ray ray = mainCamera.GetComponent<Camera>().ScreenPointToRay(new Vector3(x, y));
+        RaycastHit hit;
+            
+        if (Input.GetButtonDown("360_YButton"))
+        {
+     
+            
+            if (Physics.Raycast(ray, out hit))
+            {
+
+                number n = hit.collider.GetComponent<number>();
+               
+
+                if (n != null)
+                {
+                    Debug.Log("Detected PUzzl");
+
+            
+                    n.changeNumber();
+                    
+                }
+
+
+                
+            }
+
+           
+        }
+        
+    }
+
 }
+

@@ -51,10 +51,20 @@ public class XboxController : MonoBehaviour
 
     void Movement()
     {
+        // Gravity en Dead settings
+        // Gravity 0.3
+        // Dead 0.8 
+        // Int
+
+
+        // Naa
+
         // Linker  AnalogStick Unity3D Input Axis Detectie "Input Axis X"
         // Rechter AnalogStick Unity3D Input Axis Detectie "4 (Horizontal), 5 (Vertical)"
         // Denk er aan dat Links en Rechts op de zelfde Axis zitten en aangestuurd worden Met + en - input.
         // Het zelfde geld voor Up en Down.
+
+
 
         //Vertical movement, momenteel op de Z as.
         transform.Translate(0, 0, Input.GetAxis("Vertical") * Time.deltaTime * PlayerMovementSpeed);
@@ -92,6 +102,8 @@ public class XboxController : MonoBehaviour
                  transform.Rotate(0, Input.GetAxisRaw("360_Axis_RightStick_H") * Time.deltaTime * PlayerRotationSpeed, 0);
                  Debug.Log(Input.GetAxis("360_Axis_RightStick_H") + "Horizontal" );
              }
+
+
    
           
         }
@@ -107,6 +119,12 @@ public class XboxController : MonoBehaviour
         ///                                           Input List                                            ///
         ///                                                                                                 ///
         ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        // Voer bij settings de volgende waarden in.
+        // Zorg er voor dat er geen overbodige instellingen staan bij bijv. Negative button en de juiste ButtonModus (Joystick or Mouse).
+
+
+        // Naam_Button                       Positive Button Invoer
 
         // 360_AButton                       joystick button 0
         // 360_BButton                       joystick button 1   
@@ -124,8 +142,7 @@ public class XboxController : MonoBehaviour
 
         // Linker  Trigger Unity3D Input Axis Detectie "Input Axis 3 (met Positief input op de axis in Script)"
         // Rechter Trigger Unity3D Input Axis Detectie "Input Axis 3 (met Negatief input op de axis in Script)"
-        //
-        //
+     
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////
         ///                                                                                                 ///    
@@ -349,11 +366,11 @@ public class XboxController : MonoBehaviour
 }
 
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////
-    ///                                                                                                 ///    
-    ///                                           Mart Hidding                                          ///
-    ///                                      voor educatief gebruik                                     ///
-    ///                                         11 November 2015                                        ///
-    ///                                                                                                 ///
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+       ///////////////////////////////////////////////////////////////////////////////////////////////////////
+       ///                                                                                                 ///    
+       ///                                           Mart Hidding                                          ///
+       ///                                      voor educatief gebruik                                     ///
+       ///                                         11 November 2015                                        ///
+       ///                                                                                                 ///
+       ///////////////////////////////////////////////////////////////////////////////////////////////////////
     
